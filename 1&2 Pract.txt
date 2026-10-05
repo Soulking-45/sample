@@ -1,0 +1,159 @@
+// 1) Create and Drop Database
+
+use EmployeeDB
+
+show dbs
+
+db.createCollection("Employee")
+
+db.dropDatabase()
+
+
+// 2) Create, Display and Drop Collection
+
+db.createCollection("Employee")
+
+show collections
+
+db.Employee.drop()
+
+
+// 3) Insert, Update and Delete Document
+
+db.Employee.insertOne({
+    id: 1,
+    name: "Rahul",
+    age: 20,
+    city: "Mumbai",
+    salary: 12000,
+    department: "Developer"
+})
+
+db.Employee.find()
+
+db.Employee.find().pretty()
+
+
+// Update
+
+db.Employee.updateOne(
+    { id: 1 },
+    { $set: { age: 25 } }
+)
+
+db.Employee.find().pretty()
+
+
+// Delete
+
+db.Employee.deleteOne({ id: 1 })
+
+db.Employee.find()
+
+OR
+
+db.Employee.remove({"name" : "Rahul"})
+
+
+// 4) Insert and Display Multiple Documents
+
+db.Employee.insertMany([
+    {
+        id: 1,
+        name: "Rahul",
+        age: 25,
+        city: "Mumbai",
+        salary: 25000,
+        department: "Developer"
+    },
+    {
+        id: 2,
+        name: "Amit",
+        age: 28,
+        city: "Kurla",
+        salary: 18000,
+        department: "Tester"
+    },
+    {
+        id: 3,
+        name: "Rohan",
+        age: 24,
+        city: "Thane",
+        salary: 15000,
+        department: "Developer"
+    }
+])
+
+db.Employee.find()
+
+
+// 5) Employees who live in Mumbai
+
+db.Employee.find({
+    city: "Mumbai"
+})
+
+
+// 6) Employees staying in Kurla
+// and salary greater than 19000
+
+db.Employee.find({
+    city: "Kurla",
+    salary: { $gt: 19000 }
+})
+
+
+// 7) Salary greater than or equal to 10000
+// and less than 20000
+
+db.Employee.find({
+    salary: { $gte: 10000, $lt: 20000 }
+})
+
+
+// 8) Employees staying in Thane or Mumbai
+// and salary greater than 10000
+
+db.Employee.find({
+    city: { $in: ["Thane", "Mumbai"] },
+    salary: { $gt: 10000 }
+})
+
+
+// 9) Employees whose salary is not equal to 10000
+// and work in Developer or Tester department
+
+db.Employee.find({
+    department: { $in: ["Developer", "Tester"] },
+    salary: { $ne: 10000 }
+})
+
+10) insert employees 
+>db.Employee.insert({id:1, name:"alice", sal:20000, city :"mumbai", dept:"developer"})
+
+11) Update the country to UK for all female users.
+
+> db.col.updateMany({Gender: "Female"}, {$set: {Country: "UK"}})
+> db.col.find()
+
+
+12) Add the new field company to all the documents.
+
+> db.col.updateMany({}, {$set: {Company: "Wipro"}})
+> db.col.find()
+
+
+13) Delete all the documents where Gender = 'M'.
+
+> db.col.remove({Gender: "Male"})
+> db.col.find()
+
+
+14) Find out a count of female users who stay in either India or USA.
+
+> db.col.find({$or: [{Country: "India"}, {Country: "USA"}], Gender: "Female"}).count()
+
+15) Display the first name and age of all female employees.
+
+> db.col.find({Gender: "Female"}, {Name: 1, Age: 1})
+
